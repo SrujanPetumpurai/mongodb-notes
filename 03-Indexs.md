@@ -40,3 +40,89 @@ await Users.find({$text:{$search:'Youtuber and actor'}}).sort({score:{$meta:'tex
     field:(1|-1|metaexpression)
 }
 
+## 2dsphere index
+It is a geospatial index that tells mongodb, these coordinates are points on Earth's surface(sphere).
+2dSphere index can you used to calculate:-
+i)Nearest location
+ii)maxDistance
+ii)geoWithin
+
+In the Schema defenition the field you want to put 2dsphere index on should have GeoJson;
+ex:-
+const placeSchema = new mongoose.Schema({
+    location:{
+        type:{
+            type:'String',
+            enum:['Point'],
+            required:true
+        },
+        coordinates:{
+            type:[Number],
+            required:true
+        }
+    }
+})
+
+placeSchema.index({location:'2dsphere'})
+
+//Find nearest points:-
+await Place.find({
+    location:{
+        $near:{
+            $geometry:{type:'Point',coordinates:[45.9284874,78.3828473]},
+            $maxDistance:5000
+        }
+    }
+});
+//Returns the document  
+
+//You would have a collection with all documents in geoJson format,
+//All points inside the circle:-
+await Place.find({
+  location: {
+    $geoWithin: {
+      $centerSphere: [[83.2185, 17.6868],5/6378.1] // 6378.1 is earths radius in km. radians = distance/earth's radius.
+      // We will get a 5km radius circle.
+    }
+  }
+});
+
+//Inside a polygon
+await Place.find({
+  location: {
+    $geoWithin: {
+      $polygon: [
+        [83.21,17.68],
+        [83.22,17.68],
+        [83.22,17.69],
+        [83.21,17.69],
+        [83.21,17.68]
+      ]
+    }
+  }
+});
+//Return the document
+
+//Checks overlap with a geometry
+await Place.find({
+  location: {
+    $geoIntersects: {
+      $geometry: {
+        type: 'Polygon',
+        coordinates: [[
+          [83.21,17.68],
+          [83.22,17.68],
+          [83.22,17.69],
+          [83.21,17.69],
+          [83.21,17.68]
+        ]]
+      }
+    }
+  }
+});
+
+//Returns the Document
+
+
+
+
