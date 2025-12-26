@@ -19,25 +19,29 @@ pipeline structure:
 ## Core aggregation stages:-
 
 1.)Filtering/limiting:
-  $match,
-  $limit,
-  $skip,
-  $sort
+$match (filter documents by condition),
+$limit (restrict number of documents),
+$skip (skip N documents),
+$sort (order documents)
+
 2.)Grouping/analytics:
-  $group,
-  $count
+$group (group documents and compute values),
+$count (count documents)
+
 3.)Reshaping documents:
-  $project,
-  $addFields,
-  $unset,
-  $replaceRoot,
+$project (include/exclude/transform fields),
+$addFields (add or compute new fields),
+$unset (remove fields),
+$replaceRoot (replace entire document)
+
 4.)Joins:
-  $lookup,
-  $unwind
+$lookup (join another collection),
+$unwind (flatten array field)
+
 5.)Advanced:
-  $facet,
-  $bucket,
-  $bucketAuto
+$facet (run multiple pipelines in parallel),
+$bucket (group into fixed ranges),
+$bucketAuto (group into auto-calculated ranges)
 
 ## Query operations inside stages
 
