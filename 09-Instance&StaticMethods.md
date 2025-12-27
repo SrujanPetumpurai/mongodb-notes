@@ -1,7 +1,5 @@
 # Instance and Static Methods
 
-# Instance and Static Methods
-
 ## Instance Methods
 
 - Method attached to a **single document**
