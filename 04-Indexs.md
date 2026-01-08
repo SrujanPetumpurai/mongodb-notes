@@ -57,7 +57,7 @@ ex:-
 const placeSchema = new mongoose.Schema({
     location:{
         type:{
-            type:'String',
+            type:String,
             enum:['Point'],
             required:true
         },
