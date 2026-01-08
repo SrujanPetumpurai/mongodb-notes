@@ -51,9 +51,10 @@ await Users.findByIdAndDelete(Id) //Delete by id
 const user = new User({name:"Roshi",age:32})//This is still a js object and not written in db.
 ```
 - call save() when you create or modify document in memory 
-ex of what's not in memory:
+- Calling save() will run Schema validations and pre/post save() middleware.
+
+ex of what's not in memory:-
 ```js
 const user = await User.create({name:"Roshi",age:32})
 ```
-- Calling save() will run Schema validations and pre/post save() middleware.
 
